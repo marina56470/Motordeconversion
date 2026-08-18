@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motor de Conversión de Bases · Electrónica Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="scanlines" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="brand">
+    <span class="brand-mark">01</span>
+    <div>
+      <h1>Motor de Conversión de Bases</h1>
+    </div>
+  </div>
+  <div class="word-badge" id="wordBadge">registro · 8 bits</div>
+</header>
+
+<main>
+
+
+  <section class="panel" id="panelEntrada">
+    <h2><span class="tag">IN</span> Entrada de datos</h2>
+
+    <div class="field-row">
+      <label class="field">
+        <span>Número a procesar</span>
+        <input type="text" id="valorInput" placeholder="Ej: 1010" autocomplete="off" spellcheck="false">
+      </label>
+
+      <label class="field">
+        <span>Base de origen</span>
+        <select id="baseOrigen">
+          <option value="2">Binario</option>
+          <option value="8">Octal</option>
+          <option value="10" selected>Decimal</option>
+          <option value="16">Hexadecimal</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span>Tamaño de palabra</span>
+        <select id="bitsSelect">
+          <option value="8" selected>8 bits · Byte</option>
+          <option value="16">16 bits · Word</option>
+          <option value="32">32 bits · DWord</option>
+          <option value="64">64 bits · QWord</option>
+        </select>
+      </label>
+
+      <button id="btnConvertir" class="btn-primary">Procesar →</button>
+    </div>
+
+    <div id="errorBox" class="error-box hidden"></div>
+  </section>
+
+  <section class="panel" id="panelRegistros">
+    <h2><span class="tag">OUT</span> Panel de registros · salida multibase</h2>
+
+    <div class="register" data-base="BIN">
+      <div class="register-label">
+        <span class="reg-name">BASE 2</span>
+        <span class="reg-sub">binario</span>
+      </div>
+      <div class="bitcells" id="bitcellsBinario"><span class="placeholder">— sin datos —</span></div>
+    </div>
+
+    <div class="register-row">
+      <div class="register" data-base="OCT">
+        <div class="register-label">
+          <span class="reg-name">BASE 8</span>
+          <span class="reg-sub">octal</span>
+        </div>
+        <div class="readout" id="outOctal">—</div>
+      </div>
+
+      <div class="register" data-base="DEC">
+        <div class="register-label">
+          <span class="reg-name">BASE 10</span>
+          <span class="reg-sub">decimal</span>
+        </div>
+        <div class="readout" id="outDecimal">—</div>
+      </div>
+
+      <div class="register" data-base="HEX">
+        <div class="register-label">
+          <span class="reg-name">BASE 16</span>
+          <span class="reg-sub">hexadecimal</span>
+        </div>
+        <div class="readout" id="outHex">—</div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="panel" id="panelAlu">
+    <h2><span class="tag">ALU</span> Unidad aritmético‑lógica · operaciones bit a bit</h2>
+    <p class="hint">Compara dos cadenas binarias índice por índice usando las tablas de verdad AND / OR / XOR.</p>
+
+    <div class="field-row">
+      <label class="field">
+        <span>Operando A (binario)</span>
+        <input type="text" id="aluBin1" placeholder="Ej: 1010" autocomplete="off" spellcheck="false">
+      </label>
+
+      <label class="field">
+        <span>Operando B (binario)</span>
+        <input type="text" id="aluBin2" placeholder="Ej: 1100" autocomplete="off" spellcheck="false">
+      </label>
+
+      <label class="field">
+        <span>Operación</span>
+        <select id="aluOp">
+          <option value="AND">AND</option>
+          <option value="OR">OR</option>
+          <option value="XOR">XOR</option>
+        </select>
+      </label>
+
+      <button id="btnAlu" class="btn-secondary">Ejecutar →</button>
+    </div>
+
+    <div id="aluErrorBox" class="error-box hidden"></div>
+
+    <div class="register" data-base="ALU">
+      <div class="register-label">
+        <span class="reg-name">RESULTADO</span>
+        <span class="reg-sub" id="aluOpLabel">—</span>
+      </div>
+      <div class="bitcells" id="bitcellsAlu"><span class="placeholder">— sin datos —</span></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Algoritmos de conversión, mapeo y ALU implementados manualmente — sin funciones nativas de conversión de base.</p>
+</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
